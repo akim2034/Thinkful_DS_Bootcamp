@@ -24,18 +24,22 @@ GROUP BY 1
 
 What neighborhoods seem to be the most popular?
 
-SELECT  
+SELECT 
 	neighbourhood,
-	COUNT(*) neighbourhood_count
+	number_of_reviews,
+	reviews_per_month
 FROM 
 	listings
+WHERE reviews_per_month != ""
 GROUP BY 1
-ORDER BY neighbourhood_count DESC
+ORDER BY reviews_per_month DESC
+LIMIT 5
 
-"Mission"	"1038"
-"Western Addition"	"810"
-"South of Market"	"644"
-"Castro/Upper Market"	"497"
+"Parkside"	"11"	"7.5"
+"Diamond Heights"	"59"	"6.44"
+"Inner Sunset"	"41"	"5.3"
+"Chinatown"	"20"	"5.08"
+"Financial District"	"46"	"4.78"
 
 What time of year is the cheapest time to go to your city? What about the busiest?
 
@@ -45,13 +49,33 @@ Cheapest is probably during the holidays (December to January). There are not as
 
 Busiest is probably months before August and September. Aug and Sept received the most amounts of reviews; this probably means people wrote reviews after their summer trips. 
 
+Cheapest: 
+
 SELECT 
-	date,
-	COUNT(*) review_counts
+	r.date,
+	l.price
 FROM 
-	reviews
+	listings l
+JOIN 
+	reviews r
+ON
+	l.id = r.listing_id
 GROUP BY 1
-ORDER BY review_counts 
+ORDER BY price
+LIMIT 10
+
+"2017-09-19"	"0"
+"2017-09-26"	"0"
+"2012-08-07"	"29"
+"2012-11-02"	"29"
+"2009-10-11"	"35"
+"2009-10-19"	"35"
+"2009-11-16"	"35"
+"2009-12-04"	"35"
+"2010-01-29"	"35"
+"2010-02-09"	"35"
+
+Busiest:
 
 SELECT 
 	date,
