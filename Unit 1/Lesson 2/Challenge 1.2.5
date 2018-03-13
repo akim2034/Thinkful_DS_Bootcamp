@@ -1,0 +1,97 @@
+What's the most expensive listing? What else can you tell me about the listing?
+
+There are 7 listings with the price of $10,000.
+
+SELECT 
+	name, 
+	neighbourhood,
+	room_type,
+	price,
+	minimum_nights,
+	number_of_reviews
+FROM 
+	listings
+WHERE price = 10000
+GROUP BY 1	
+
+"11 Bedroom Mansion - Victorian Boutique Hotel"	"Western Addition"	"Entire home/apt"	"10000"	"1"	"1"
+"Comfy Fancy Apartment"	"South of Market"	"Shared room"	"10000"	"1"	"0"
+"Dream Listing"	"Mission"	"Entire home/apt"	"10000"	"1"	"0"
+"Impeccable cute condo"	"Financial District"	"Entire home/apt"	"10000"	"1"	"2"
+"Large Private Bedroom with own bathroom"	"Potrero Hill"	"Private room"	"10000"	"1"	"0"
+"Super Bowl South Beach Loft"	"South of Market"	"Entire home/apt"	"10000"	"4"	"0"
+"Wedding Venue Villa Boutique Hotel for 100 to 300"	"Western Addition"	"Entire home/apt"	"10000"	"1"	"0"
+
+What neighborhoods seem to be the most popular?
+
+SELECT 
+	neighbourhood,
+	number_of_reviews,
+	reviews_per_month
+FROM 
+	listings
+WHERE reviews_per_month != ""
+GROUP BY 1
+ORDER BY reviews_per_month DESC
+LIMIT 5
+
+"Parkside"	"11"	"7.5"
+"Diamond Heights"	"59"	"6.44"
+"Inner Sunset"	"41"	"5.3"
+"Chinatown"	"20"	"5.08"
+"Financial District"	"46"	"4.78"
+
+What time of year is the cheapest time to go to your city? What about the busiest?
+
+-- Need to redo this section
+
+Cheapest is probably during the holidays (December to January). There are not as many reviews so chances are people are staying home during the holidays. 
+
+Busiest is probably months before August and September. Aug and Sept received the most amounts of reviews; this probably means people wrote reviews after their summer trips. 
+
+Cheapest: 
+
+SELECT 
+	r.date,
+	l.price
+FROM 
+	listings l
+JOIN 
+	reviews r
+ON
+	l.id = r.listing_id
+GROUP BY 1
+ORDER BY price
+LIMIT 10
+
+"2017-09-19"	"0"
+"2017-09-26"	"0"
+"2012-08-07"	"29"
+"2012-11-02"	"29"
+"2009-10-11"	"35"
+"2009-10-19"	"35"
+"2009-11-16"	"35"
+"2009-12-04"	"35"
+"2010-01-29"	"35"
+"2010-02-09"	"35"
+
+Busiest:
+
+SELECT 
+	date,
+	COUNT(*) review_counts
+FROM 
+	reviews
+GROUP BY 1
+ORDER BY review_counts DESC
+
+"2012-12-25"	"542"
+"2013-01-27"	"542"
+"2011-03-29"	"530"
+"2011-08-25"	"530"
+"2012-03-26"	"530"
+"2013-02-15"	"530"
+"2009-08-01"	"525"
+"2009-08-27"	"525"
+"2009-09-11"	"525"
+"2009-09-14"	"525"
